@@ -166,7 +166,14 @@ def insert_to_append(edits):
 
     # Special case for appends at the beginning of the sequence
     if processed_edits[0].startswith('A') and re.sub(r'A_\[.*?\]', '', processed_edits[0]) == 'K':
-        processed_edits[0] = processed_edits[0].replace('K', 'K' * len(subwords[0].replace('##', '')))
+        # Calculate length of kept section
+        keep_section = 'K' * len(subwords[0].replace('##', ''))
+        # Split the edit by bracketed segments
+        edit_sections = re.split(r'(\[[^\]]*\])', processed_edits[0])
+        # Replace 'K' only outside of the brackets
+        for i in range(0, len(edit_sections), 2):
+            edit_sections[i] = edit_sections[i].replace('K', keep_section)
+        processed_edits[0] = "".join(edit_sections) 
 
     processed_edits = [SubwordEdit(subword, raw_subword, edit)
                        for subword, raw_subword, edit in zip(subwords, raw_subwords, processed_edits)]
