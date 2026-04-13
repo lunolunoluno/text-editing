@@ -442,8 +442,8 @@ def reduce_inserts_deletions(alignment):
         assert len(example['src']) == len(example['tgt'])
         src, tgt = example['src'], example['tgt']
 
-        src = [x.replace('PNX', '').replace('NIL','') for x in src]
-        tgt = [x.replace('PNX', '').replace('NIL','') for x in tgt]
+        src = [re.sub(r'\b(NIL|PNX)\b', '', x) for x in src]
+        tgt = [re.sub(r'\b(NIL|PNX)\b', '', x) for x in tgt]
 
         i = 0
         s_idx = 0
