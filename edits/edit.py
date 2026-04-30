@@ -282,7 +282,7 @@ class SubwordEdits:
             # Flatten subword lists
             subwords = [wp for sublist in subwords for wp in sublist]
             raw_subwords = [wp for sublist in raw_subwords for wp in sublist]
-        else:
+        if tokenizer is None or len(subwords) == 0 or len(raw_subwords) == 0:
             subwords = aligned_src_word.split()
             raw_subwords = subwords
 
