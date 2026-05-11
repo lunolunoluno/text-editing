@@ -571,7 +571,10 @@ def detokenize_sent(sent):
     detokenize_sent = []
     for subword in sent:
         if subword.startswith('##'):
-            detokenize_sent[-1] = detokenize_sent[-1] + subword.replace('##', '')
+            if len(detokenize_sent) > 0:
+                detokenize_sent[-1] = detokenize_sent[-1] + subword.replace('##', '')
+            else:
+                detokenize_sent = [subword.replace('##', '')]
         else:
             detokenize_sent.append(subword)
 
